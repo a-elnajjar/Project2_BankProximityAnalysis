@@ -191,9 +191,12 @@ void processData(int rank,int numProcs)
 			cout<<"1.00 - 2.00 \t"<<countBuff[p].range2<<"\t\t %"<<countBuff[p].preset2<<endl;
 			cout<<"2.00 - 5.00 \t"<<countBuff[p].range3<<"\t\t %"<<countBuff[p].preset3<<endl;
 			cout<<"    5.00 \t"<<countBuff[p].range4<<"\t\t %"<<countBuff[p].preset4<<endl;
-
+			cout<<endl;
+			cout<<endl;
 
 		}
+		cout<<endl;
+		cout<<endl;
 		// calulate the total 
 		int totalNumberOFAddressArrg = countArggResult.range1 + countArggResult.range2+ countArggResult.range3+ countArggResult.range4;
 		countArggResult.preset1 = ((double)countArggResult.range1/ totalNumberOFAddressArrg) * 100.00;
@@ -221,14 +224,21 @@ int main(int argc, char* argv[])
 
 	if( MPI_Init(&argc, &argv) == MPI_SUCCESS )
 	{
+		double timeStart,timeEnd;
 
 		int procRank,numProcs;
+		MPI_Barrier(MPI_COMM_WORLD); /* IMPORTANT */
+		timeStart = MPI_Wtime();
 		MPI_Comm_size(MPI_COMM_WORLD, &numProcs);
 		MPI_Comm_rank(MPI_COMM_WORLD, &procRank);
 		processData(procRank,numProcs);
-
+		MPI_Barrier(MPI_COMM_WORLD); /* IMPORTANT */
+		timeEnd = MPI_Wtime();
 
 		MPI_Finalize();
+		if (procRank == 0) { /* use time on master node */
+			cout<<"Runtime="<<timeEnd-timeStart<<endl;
+		}
 
 
 	}
