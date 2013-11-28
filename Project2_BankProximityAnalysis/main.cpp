@@ -88,10 +88,15 @@ double getShortestDistances(Residence rs,vector<Foodbank> fs)
 
 
 	std::vector<double>tempVec;
-	for(auto f:fs)
-	{
+	//for(auto f:fs)
 
-		tempVec.push_back( distanceCalculate(f.x,f.y,rs.x,rs.y) / KM);
+	std::vector<Foodbank>::iterator iter;
+
+	for( iter = fs.begin(); iter != fs.end(); iter++ )
+	{
+	
+
+		tempVec.push_back( distanceCalculate(iter->x,iter->y,rs.x,rs.y) / KM);
 
 	}
 	distances = *std::min_element(tempVec.begin(), tempVec.end());
@@ -99,6 +104,8 @@ double getShortestDistances(Residence rs,vector<Foodbank> fs)
 
 	return distances;
 }
+
+
 void analysis_range(double d,countType &ctp)
 {
 
@@ -185,8 +192,8 @@ void processData(int rank,int numProcs)
 			int totalNumberOFAddress = countBuff[p].range1 + countBuff[p].range2 +countBuff[p].range3 + countBuff[p].range4;
 			cout<<"For Rank"<<proseRank<<endl;
 			cout<<"Total Number OF Address ="<<totalNumberOFAddress<<endl;
-			cout<<"Nearest Foodbank\t"<<"# of Address"<<"\t %Address"<<endl;
-			cout<<"---------------\t"<<"------------"<<"\t---------"<<endl;
+		cout<<"Nerest Foodbank\t"<<"# of Address"<<"\t %Address"<<endl;
+		cout<<"---------------\t"<<"------------"<<"\t---------"<<endl;
 			cout<<"0.00 - 1.00 \t"<<countBuff[p].range1<<"\t\t%"<<countBuff[p].preset1<<endl;
 			cout<<"1.00 - 2.00 \t"<<countBuff[p].range2<<"\t\t %"<<countBuff[p].preset2<<endl;
 			cout<<"2.00 - 5.00 \t"<<countBuff[p].range3<<"\t\t %"<<countBuff[p].preset3<<endl;
